@@ -1,9 +1,9 @@
 {
-  "name": "dwit",
-  "displayName": "dwit",
+  "name": "movie",
+  "displayName": "movie",
   "expo": {
-    "name": "dwit",
-    "slug": "dwit",
+    "name": "movie",
+    "slug": "movie",
     "version": "1.0.0",
     "assetBundlePatterns": [
       "**/*"
