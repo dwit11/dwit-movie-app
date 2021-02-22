@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { View, Text, StyleSheet, Dimensions, FlatList, Animated } from 'react-native'
+import { View, StyleSheet, Dimensions, FlatList, Animated } from 'react-native'
 import CarouselItem from './CarouselItem'
-
 
 const { width, heigth } = Dimensions.get('window')
 let flatList
@@ -78,8 +77,6 @@ const Carousel = ({ data }) => {
             </View>
         )
     }
-
-    console.log('Please provide Images')
     return null
 }
 

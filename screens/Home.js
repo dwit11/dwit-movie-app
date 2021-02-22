@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import {
   View,
   Text,
+  FlatList,
   StyleSheet,
   ScrollView,
   ImageBackground,
@@ -9,20 +10,48 @@ import {
 import Carousel from '../component/Carousel'
 import colors from '../assets/colors/colors';
 import Feather from 'react-native-vector-icons/Feather';
-import boxoffice from '../assets/data/boxoffice';
-import premovie from '../assets/data/premovie';
+
 import { banner } from '../assets/data/banner';
+// import boxoffice from '../assets/data/boxoffice';
+// import premovie from '../assets/data/premovie';
+
+import api from '../api/list'
 import { MaterialCommunityIcons, Entypo } from 'react-native-vector-icons';
-import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 Feather.loadFont();
 Entypo.loadFont();
 
 const Home = ({ navigation }) => {
+
+  const [premovie, setPremovie] = useState([]);
+  const [boxoffice, setBoxoffice] = useState([]);
+
+  const getPremovie = useCallback(async () => {
+    const result = await api.premovie();
+    setPremovie(result.data);
+  }, [])
+
+  const getBoxoffice = useCallback(async () => {
+    const result = await api.boxoffice();
+    setBoxoffice(result.data);
+  }, [])
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener(
+      'focus',
+      () => {
+        getBoxoffice();
+        getPremovie();
+      }
+    )
+    return unsubscribe;
+  }, [navigation])
+
   const renderDiscoverItem = ({ item }) => {
     return (
       <TouchableOpacity onPress={() => navigation.navigate('Details', { item: item, })}>
-        <ImageBackground source={{uri: item.image}}
+        <ImageBackground source={{ uri: item.image }}
           style={[styles.discoverItem, { marginLeft: item.id === '1' ? 20 : 0 }]}
           imageStyle={styles.discoverItemImage}>
           <Text style={styles.discoverItemTitle}>{item.title}</Text>
@@ -37,7 +66,7 @@ const Home = ({ navigation }) => {
 
   const renderLearnMoreItem = ({ item }) => {
     return (
-      <ImageBackground source={{uri: item.image}} style={[styles.learnMoreItem, { marginLeft: item.id === '1' ? 20 : 0 }]}
+      <ImageBackground source={{ uri: item.image }} style={[styles.learnMoreItem, { marginLeft: item.id === '1' ? 20 : 0 }]}
         imageStyle={styles.learnMoreItemImage}>
         <Text style={styles.learnMoreItemText}>{item.title}</Text>
       </ImageBackground>
@@ -48,7 +77,7 @@ const Home = ({ navigation }) => {
     <View style={styles.container}>
       <ScrollView>
         <View style={styles.menuWrapper}>
-          <TouchableOpacity onPress={()=>{}}>
+          <TouchableOpacity onPress={() => { }}>
             <Feather name="menu" size={30} color={colors.black} />
           </TouchableOpacity>
           <View style={styles.serch}>
@@ -68,7 +97,7 @@ const Home = ({ navigation }) => {
             <FlatList
               data={premovie}
               renderItem={renderDiscoverItem}
-              keyExtractor={(item) => item.id}
+              keyExtractor={(item) => item.id.toString()}
               horizontal
               showsHorizontalScrollIndicator={false}
             />
@@ -86,7 +115,7 @@ const Home = ({ navigation }) => {
             <FlatList
               data={boxoffice}
               renderItem={renderLearnMoreItem}
-              keyExtractor={(item) => item.id}
+              keyExtractor={(item) => item.id.toString()}
               horizontal
               showsHorizontalScrollIndicator={false}
             />
