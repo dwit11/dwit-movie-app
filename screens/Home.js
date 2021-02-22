@@ -22,7 +22,7 @@ const Home = ({ navigation }) => {
   const renderDiscoverItem = ({ item }) => {
     return (
       <TouchableOpacity onPress={() => navigation.navigate('Details', { item: item, })}>
-        <ImageBackground source={item.image}
+        <ImageBackground source={{uri: item.image}}
           style={[styles.discoverItem, { marginLeft: item.id === '1' ? 20 : 0 }]}
           imageStyle={styles.discoverItemImage}>
           <Text style={styles.discoverItemTitle}>{item.title}</Text>
@@ -37,7 +37,7 @@ const Home = ({ navigation }) => {
 
   const renderLearnMoreItem = ({ item }) => {
     return (
-      <ImageBackground source={item.image} style={[styles.learnMoreItem, { marginLeft: item.id === '1' ? 20 : 0 }]}
+      <ImageBackground source={{uri: item.image}} style={[styles.learnMoreItem, { marginLeft: item.id === '1' ? 20 : 0 }]}
         imageStyle={styles.learnMoreItemImage}>
         <Text style={styles.learnMoreItemText}>{item.title}</Text>
       </ImageBackground>

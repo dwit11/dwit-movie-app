@@ -21,7 +21,7 @@ const Details = ({ route, navigation }) => {
   const dispatch = useDispatch()
   return (
     <View style={styles.container}>
-      <ImageBackground source={item.imageBig} style={styles.backgroundImage}>
+      <ImageBackground source={{uri: item.image}} style={styles.backgroundImage}>
         <TouchableOpacity
           style={styles.backIcon}
           onPress={() => navigation.goBack()}>
